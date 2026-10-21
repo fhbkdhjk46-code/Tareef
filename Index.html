@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأستاذ طريف خيرالله | خبير الرياضيات والفيزياء والكيمياء</title>
+    
+    <!-- Google Fonts: Cairo & Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        royal: {
+                            950: '#070f1e',
+                            900: '#0e1a2f',
+                            800: '#1a2942',
+                            700: '#283b5a',
+                            600: '#3b5278',
+                            100: '#e2e8f0'
+                        },
+                        gold: {
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207'
+                        },
+                        math: '#3b82f6',
+                        physics: '#10b981',
+                        chemistry: '#a855f7'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    },
+                    animation: {
+                        'shimmer': 'shimmer 2.5s infinite linear',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #facc15 50%, #ca8a04 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-bg {
+            background: radial-gradient(circle at 50% 20%, #1a2942 0%, #0e1a2f 60%, #070f1e 100%);
+        }
+        .glass-header {
+            background: rgba(14, 26, 47, 0.88);
+            backdrop-filter: blur(16px);
+        }
+        html.light .glass-header {
+            background: rgba(255, 255, 255, 0.92);
+        }
+        html.light body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        html.light .bg-royal-950 { background-color: #f8fafc; }
+        html.light .bg-royal-900 { background-color: #ffffff; border-color: #e2e8f0; }
+        html.light .bg-royal-800 { background-color: #f1f5f9; border-color: #cbd5e1; }
+        html.light .text-white { color: #0f172a; }
+        html.light .text-slate-300 { color: #334155; }
+        html.light .text-slate-400 { color: #64748b; }
+        .shimmer-btn {
+            background: linear-gradient(90deg, #eab308 0%, #fef08a 50%, #eab308 100%);
+            background-size: 200% 100%;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0e1a2f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #eab308;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-royal-950 text-slate-100 transition-colors duration-300 min-h-screen flex flex-col justify-between selection:bg-gold-500 selection:text-royal-950">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-24 left-5 z-50 bg-royal-900 border border-gold-500/40 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 transform -translate-x-96 opacity-0 transition-all duration-500 max-w-sm">
+        <div class="w-10 h-10 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-square-root-variable" id="toastIcon"></i>
+        </div>
+        <div>
+            <h4 id="toastTitle" class="font-bold text-sm text-gold-400">إشعار التعليم العلمي</h4>
+            <p id="toastMessage" class="text-xs text-slate-300 font-tajawal mt-0.5">تم تنفيذ الإجراء بنجاح.</p>
+        </div>
+    </div>
+
+    <!-- Announcement Bar -->
+    <div class="bg-gradient-to-r from-royal-900 via-gold-600 to-royal-900 text-royal-950 text-xs py-2 px-4 font-bold border-b border-gold-500/30">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center gap-2 overflow-hidden whitespace-nowrap">
+                <span class="bg-royal-950 text-gold-400 px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider">التسجيل مفتوح</span>
+                <span class="text-white font-tajawal truncate">دورات البكالوريا العلمية والتاسع في المواد الثلاث (الرياضيات - الفيزياء - الكيمياء) مع الأستاذ طريف خيرالله</span>
+            </div>
+            <a href="tel:0955893728" class="hidden sm:flex items-center gap-2 text-white hover:text-gold-300 transition-colors shrink-0" dir="ltr">
+                <i class="fa-solid fa-phone-volume text-gold-400"></i>
+                <span class="font-mono">0955893728</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky top-0 z-40 glass-header border-b border-royal-800/80 shadow-2xl transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#home" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-gold-600 via-gold-400 to-amber-300 flex items-center justify-center text-royal-950 font-black shadow-lg shadow-gold-500/20 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-atom text-2xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl sm:text-2xl font-black tracking-tight text-white block leading-tight">الأستاذ طريف خيرالله</span>
+                    <span class="text-[11px] font-bold text-gold-400 tracking-wider">خبير العلوم المنهجية: رياضيات • فيزياء • كيمياء</span>
+                </div>
+            </a>
+
+            <!-- Desktop Links -->
+            <nav class="hidden lg:flex items-center gap-6 text-xs font-bold text-slate-300">
+                <a href="#home" class="hover:text-gold-400 transition-colors">الرئيسية</a>
+                <a href="#subjects" class="hover:text-gold-400 transition-colors">المواد العلمية</a>
+                <a href="#quiz" class="hover:text-gold-400 transition-colors">اختبار المستوى</a>
+                <a href="#planner" class="hover:text-gold-400 transition-colors">منظم الدراسة</a>
+                <a href="#resources" class="hover:text-gold-400 transition-colors">مكتبة الملخصات PDFs</a>
+                <a href="#testimonials" class="hover:text-gold-400 transition-colors">الأوائل</a>
+                <a href="#contact" class="hover:text-gold-400 transition-colors">الحجز والتواصل</a>
+            </nav>
+
+            <!-- Action Controls -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleTheme()" id="themeBtn" aria-label="تبديل الوضع" class="w-11 h-11 rounded-2xl bg-royal-800 border border-royal-700 hover:border-gold-500/50 text-gold-400 flex items-center justify-center transition-all hover:scale-105">
+                    <i class="fa-solid fa-moon text-lg" id="themeIcon"></i>
+                </button>
+
+                <a href="tel:0955893728" class="hidden sm:flex items-center gap-2 bg-royal-800 hover:bg-royal-700 text-white font-bold px-4 py-2.5 rounded-2xl text-xs transition-all border border-royal-700 hover:border-gold-500/50 shadow-md">
+                    <i class="fa-solid fa-phone text-gold-400"></i>
+                    <span dir="ltr" class="font-mono text-sm">0955893728</span>
+                </a>
+
+                <a href="https://wa.me/963955893728?text=مرحباً%20أستاذ%20طريف،%20أرغب%20بالاستفسار%20عن%20دروس%20المواد%20العلمية" target="_blank" rel="noopener" class="hidden md:flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-5 py-2.5 rounded-2xl shadow-lg shadow-emerald-900/30 transition-all hover:scale-105 text-xs">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>واتساب مباشر</span>
+                </a>
+
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-slate-300 hover:text-gold-400 focus:outline-none">
+                    <i class="fa-solid fa-bars-staggered text-2xl" id="menuBars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-royal-900/98 border-b border-royal-800 px-6 py-6 space-y-4">
+            <a href="#home" onclick="toggleMobileMenu()" class="block font-bold text-slate-200 hover:text-gold-400">الرئيسية</a>
+            <a href="#subjects" onclick="toggleMobileMenu()" class="block font-bold text-slate-200 hover:text-gold-400">المواد العلمية الثلاث</a>
+            <a href="#quiz" onclick="toggleMobileMenu()" class="block font-bold text-slate-200 hover:text-gold-400">اختبار المستوى الشامل</a>
+            <a href="#planner" onclick="toggleMobileMenu()" class="block font-bold text-slate-200 hover:text-gold-400">جدول ومخطط المواد العلمية</a>
+            <a href="#resources" onclick="toggleMobileMenu()" class="block font-bold text-slate-200 hover:text-gold-400">مكتبة الملخصات والمكثفات</a>
+            <a href="#testimonials" onclick="toggleMobileMenu()" class="block font-bold text-slate-200 hover:text-gold-400">شهادات المتفوقين</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block font-bold text-slate-200 hover:text-gold-400">التسجيل وحجز مقعد</a>
+            
+            <div class="pt-4 border-t border-royal-800 space-y-3">
+                <a href="tel:0955893728" class="w-full flex items-center justify-center gap-3 bg-royal-800 text-white font-bold py-3 rounded-2xl border border-gold-500/30">
+                    <i class="fa-solid fa-phone text-gold-400"></i>
+                    <span>اتصل مباشرة: <strong dir="ltr">0955893728</strong></span>
+                </a>
+                <a href="https://wa.me/963955893728" target="_blank" class="w-full flex items-center justify-center gap-3 bg-emerald-600 text-white font-bold py-3 rounded-2xl shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>مراسلة واتساب فورية</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg relative py-20 lg:py-28 overflow-hidden border-b border-royal-800/60">
+            <div class="absolute top-1/4 right-10 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-10 left-10 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Hero Content -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-right">
+                        
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-royal-800/80 border border-gold-500/30 text-gold-400 text-xs sm:text-sm font-semibold shadow-inner">
+                            <i class="fa-solid fa-microscope text-gold-400 animate-pulse"></i>
+                            <span>التخصص العلمي الأقوى للشهادة الثانوية والإعدادية</span>
+                        </div>
+
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight">
+                            علامتك التامة في <br>
+                            <span class="gold-gradient-text">الرياضيات • الفيزياء • الكيمياء</span> <br>
+                            مع <span id="typingText" class="text-white">الأستاذ طريف خيرالله</span>
+                        </h1>
+
+                        <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0 font-tajawal">
+                            منهجية علمية دقيقة تعتمد على فهم القوانين الاستنتاجية، التطبيق العملي للتمارين المركبة، والتدريب المكثف على نماذج واسئلة امتحانات البكالوريا الوزارية.
+                        </p>
+
+                        <!-- Three Science Tags -->
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
+                            <span class="bg-blue-500/20 text-blue-400 border border-blue-500/30 px-4 py-2 rounded-2xl text-xs font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-square-root-variable"></i> الرياضيات التأسيسية
+                            </span>
+                            <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-4 py-2 rounded-2xl text-xs font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-bolt"></i> الفيزياء النظرية والعملية
+                            </span>
+                            <span class="bg-purple-500/20 text-purple-400 border border-purple-500/30 px-4 py-2 rounded-2xl text-xs font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-flask"></i> الكيمياء النووية والتحليلية
+                            </span>
+                        </div>
+
+                        <!-- Call Box -->
+                        <div class="inline-flex items-center justify-center lg:justify-start gap-4 bg-royal-900/90 p-4 rounded-2xl border border-royal-700/80 shadow-2xl w-full sm:w-auto">
+                            <div class="w-12 h-12 rounded-xl bg-gold-500/20 text-gold-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-slate-400 block font-bold">خط التسجيل وحجز الدروس المباشر:</span>
+                                <a href="tel:0955893728" class="text-xl font-black text-white hover:text-gold-400 transition-colors font-mono" dir="ltr">0955893728</a>
+                            </div>
+                        </div>
+
+                        <!-- CTA Actions -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                            <button onclick="openBookingModal('الرياضيات والفيزياء والكيمياء')" class="w-full sm:w-auto shimmer-btn animate-shimmer text-royal-950 font-black px-8 py-4 rounded-2xl shadow-xl shadow-gold-500/20 flex items-center justify-center gap-3 transition-transform hover:scale-105 text-sm">
+                                <i class="fa-solid fa-calendar-check text-lg"></i>
+                                <span>احجز حصتك التجريبية مجاناً</span>
+                            </button>
+                            <a href="https://wa.me/963955893728?text=أهلاً%20أستاذ%20طريف،%20أود%20حجز%20درس%20تجريبي%20في%20المواد%20العلمية" target="_blank" class="w-full sm:w-auto bg-royal-800 hover:bg-royal-700 border border-royal-600 text-white font-bold px-8 py-4 rounded-2xl flex items-center justify-center gap-3 transition-transform hover:scale-105 text-sm">
+                                <i class="fa-brands fa-whatsapp text-emerald-400 text-xl"></i>
+                                <span>مراسلة واتساب الفورية</span>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <!-- Teacher Science Badge Card -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-md">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 via-gold-500 to-purple-600 rounded-3xl blur-2xl opacity-30 animate-pulse-slow"></div>
+                            
+                            <div class="relative bg-royal-900 border border-gold-500/30 rounded-3xl p-8 shadow-2xl text-center space-y-6">
+                                
+                                <div class="relative inline-block">
+                                    <div class="w-40 h-40 mx-auto rounded-full bg-gradient-to-tr from-gold-500 via-blue-600 to-purple-600 p-1.5 shadow-2xl">
+                                        <div class="w-full h-full rounded-full bg-royal-950 flex items-center justify-center overflow-hidden">
+                                            <i class="fa-solid fa-user-graduate text-7xl text-gold-400"></i>
+                                        </div>
+                                    </div>
+                                    <span class="absolute bottom-2 right-2 bg-emerald-500 text-white text-xs p-2 rounded-full shadow-lg border-2 border-royal-900" title="متاح للتسجيل">
+                                        <i class="fa-solid fa-check"></i>
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-2xl font-black text-white">الأستاذ طريف خيرالله</h3>
+                                    <p class="text-gold-400 text-sm font-bold mt-1">مدرس وموجه متخصص بالثلاثية العلمية</p>
+                                </div>
+
+                                <!-- Triple Skills Progress -->
+                                <div class="space-y-3 text-right text-xs text-slate-300 font-tajawal bg-royal-950/80 p-4 rounded-2xl border border-royal-800">
+                                    <div>
+                                        <div class="flex justify-between mb-1 font-bold">
+                                            <span class="text-blue-400"><i class="fa-solid fa-calculator"></i> الرياضيات (جبر وتحليل وهندسة)</span>
+                                            <span>100%</span>
+                                        </div>
+                                        <div class="w-full bg-royal-800 h-1.5 rounded-full"><div class="bg-blue-500 h-1.5 rounded-full w-full"></div></div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex justify-between mb-1 font-bold">
+                                            <span class="text-emerald-400"><i class="fa-solid fa-magnet"></i> الفيزياء (نواسات وكهرباء وأمواج)</span>
+                                            <span>100%</span>
+                                        </div>
+                                        <div class="w-full bg-royal-800 h-1.5 rounded-full"><div class="bg-emerald-500 h-1.5 rounded-full w-full"></div></div>
+                                    </div>
+
+                                    <div>
+                                        <div class="flex justify-between mb-1 font-bold">
+                                            <span class="text-purple-400"><i class="fa-solid fa-flask-vial"></i> الكيمياء (تحليلية وعضوية)</span>
+                                            <span>100%</span>
+                                        </div>
+                                        <div class="w-full bg-royal-800 h-1.5 rounded-full"><div class="bg-purple-500 h-1.5 rounded-full w-full"></div></div>
+                                    </div>
+                                </div>
+
+                                <button onclick="copyPhoneNumber()" class="w-full py-3 bg-royal-800 hover:bg-royal-700 border border-royal-600 text-gold-400 font-bold rounded-2xl transition-colors text-xs flex items-center justify-center gap-2">
+                                    <i class="fa-regular fa-copy"></i>
+                                    <span>نسخ رقم الاتصال (0955893728)</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Three Science Subjects Section -->
+        <section id="subjects" class="py-24 bg-royal-950 border-b border-royal-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                    <span class="text-gold-400 font-bold text-xs uppercase tracking-widest">تخصصنا العلمي الشامل</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">المواد العلمية الرئيسية مع الأستاذ طريف</h2>
+                    <p class="text-slate-400 font-tajawal text-sm">شرح متكامل للمناهج الحديثة، الأفكار الذهبية، وحل التمارين الامتحانية الشاملة</p>
+                    <div class="w-20 h-1 bg-gold-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    
+                    <!-- Subject 1: Mathematics -->
+                    <div class="bg-royal-900 rounded-3xl p-8 border border-blue-500/30 hover:border-blue-500 transition-all shadow-xl flex flex-col justify-between relative overflow-hidden group">
+                        <div class="absolute -top-12 -left-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all"></div>
+                        <div>
+                            <div class="w-16 h-16 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-3xl mb-6">
+                                <i class="fa-solid fa-square-root-variable"></i>
+                            </div>
+                            <span class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">مادة الرياضيات</span>
+                            <h3 class="text-2xl font-black text-white mb-4">منهاج الرياضيات الشامل</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm font-tajawal leading-relaxed mb-6">
+                                تغطية متكاملة لجميع أبحاث الجبر، التحليل الرياضي، الهندسة الفضائية، والاحتمالات مع التركيز على الاستنتاجات الشاملة وإجابات السلم الوزاري.
+                            </p>
+
+                            <div class="space-y-2 border-t border-royal-800 pt-4 text-xs font-tajawal text-slate-300 mb-6">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-400"></i><span>النهايات والاشتقاق والاستمرار</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-400"></i><span>التكامل والدوال التآلفية واللوغاريتمية</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-400"></i><span>الهندسة الفضائية والأعداد المركبة</span></div>
+                            </div>
+                        </div>
+
+                        <button onclick="openBookingModal('مادة الرياضيات')" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>حجز دورة الرياضيات</span>
+                        </button>
+                    </div>
+
+                    <!-- Subject 2: Physics -->
+                    <div class="bg-royal-900 rounded-3xl p-8 border border-emerald-500/30 hover:border-emerald-500 transition-all shadow-xl flex flex-col justify-between relative overflow-hidden group">
+                        <div class="absolute -top-12 -left-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
+                        <div>
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl mb-6">
+                                <i class="fa-solid fa-atom"></i>
+                            </div>
+                            <span class="bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">مادة الفيزياء</span>
+                            <h3 class="text-2xl font-black text-white mb-4">منهاج الفيزياء النظري والعملي</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm font-tajawal leading-relaxed mb-6">
+                                فهم النواسات والمرونة، التحريض الكهرومغناطيسي، أمواج الصوت والضوء، مع حل أعتى المسائل والتمارين النموذجية للوزارة.
+                            </p>
+
+                            <div class="space-y-2 border-t border-royal-800 pt-4 text-xs font-tajawal text-slate-300 mb-6">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i><span>النواس المرن والنواس الثقيل</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i><span>الكهرباء والمغناطيسية والدارة RLC</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i><span>الفيزياء الحديثة والإلكترونيات</span></div>
+                            </div>
+                        </div>
+
+                        <button onclick="openBookingModal('مادة الفيزياء')" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>حجز دورة الفيزياء</span>
+                        </button>
+                    </div>
+
+                    <!-- Subject 3: Chemistry -->
+                    <div class="bg-royal-900 rounded-3xl p-8 border border-purple-500/30 hover:border-purple-500 transition-all shadow-xl flex flex-col justify-between relative overflow-hidden group">
+                        <div class="absolute -top-12 -left-12 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-all"></div>
+                        <div>
+                            <div class="w-16 h-16 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-3xl mb-6">
+                                <i class="fa-solid fa-flask-vial"></i>
+                            </div>
+                            <span class="bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">مادة الكيمياء</span>
+                            <h3 class="text-2xl font-black text-white mb-4">منهاج الكيمياء المتكامل</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm font-tajawal leading-relaxed mb-6">
+                                تبسيط التفاعلات النووية، سرعة التفاعل، التوازن الكيميائي، المعايرة الحجمية، وتسمية المركبات العضوية وتفاعلاتها بكل سلاسة.
+                            </p>
+
+                            <div class="space-y-2 border-t border-royal-800 pt-4 text-xs font-tajawal text-slate-300 mb-6">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i><span>الكيمياء النووية والحرارية</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i><span>الكيمياء التحليلية والمعايرة الحجمية</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i><span>الكيمياء العضوية الشاملة والتسمية</span></div>
+                            </div>
+                        </div>
+
+                        <button onclick="openBookingModal('مادة الكيمياء')" class="w-full py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>حجز دورة الكيمياء</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Interactive Science Quiz & Level Test Section -->
+        <section id="quiz" class="py-24 bg-royal-900/40 border-b border-royal-800/60">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                    <span class="text-gold-400 font-bold text-xs uppercase tracking-widest">تحدي الذكاء العلمي</span>
+                    <h2 class="text-3xl font-black text-white">اختبار المستوى في (الرياضيات والفيزياء والكيمياء)</h2>
+                    <p class="text-slate-400 font-tajawal text-sm">أجب عن الأسئلة التالية لاكتشاف قدرتك العلمية وتلقي نصيحة الأستاذ طريف</p>
+                </div>
+
+                <div class="bg-royal-900 p-8 sm:p-12 rounded-3xl border border-royal-800 shadow-2xl relative">
+                    
+                    <div id="quizContainer">
+                        <div class="flex justify-between items-center text-xs font-bold mb-3">
+                            <span id="quizStepText" class="text-gold-400">السؤال 1 من 3</span>
+                            <span id="quizSubjectTag" class="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full">قسم الرياضيات</span>
+                        </div>
+
+                        <div class="w-full bg-royal-950 h-2 rounded-full mb-8">
+                            <div id="quizProgress" class="bg-gradient-to-r from-blue-500 via-emerald-500 to-gold-500 h-2 rounded-full w-1/3 transition-all duration-300"></div>
+                        </div>
+
+                        <h3 id="quizQuestionTitle" class="text-lg font-bold text-white leading-relaxed mb-6">
+                            مشتق الدالة اللوغاريتمية f(x) = ln(x) بالنسبة لـ x هو:
+                        </h3>
+
+                        <div id="quizOptions" class="space-y-3">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <div class="mt-8 flex justify-end">
+                            <button id="quizNextBtn" onclick="nextQuizStep()" disabled class="px-8 py-3 bg-gold-500 disabled:opacity-40 text-royal-950 font-black rounded-2xl text-xs transition-all">
+                                السؤال التالي
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Results -->
+                    <div id="quizResultBox" class="hidden text-center space-y-6 py-6">
+                        <div class="w-20 h-20 rounded-full bg-gold-500/20 border border-gold-500 text-gold-400 flex items-center justify-center text-4xl mx-auto">
+                            <i class="fa-solid fa-square-root-variable"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-white">اكتمل التقييم العلمي بنجاح!</h3>
+                        <div class="text-4xl font-black text-gold-400 font-mono" id="quizFinalScore">30 / 30</div>
+                        <p id="quizFinalMsg" class="text-slate-300 text-xs sm:text-sm font-tajawal max-w-lg mx-auto">
+                            درجتك ممتازة جداً وتظهر تأسساً متيناً في المبادئ العلمية! أرسل النتيجة للأستاذ طريف للبدء في برنامج التفوق الكامل.
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                            <button onclick="restartQuiz()" class="px-6 py-3 bg-royal-800 text-white font-bold rounded-2xl text-xs">إعادة التقييم</button>
+                            <a id="quizWhatsappBtn" href="#" target="_blank" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-xs flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>إرسال النتيجة للأستاذ طريف</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Science Study Planner Section -->
+        <section id="planner" class="py-24 bg-royal-950 border-b border-royal-800/60">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                    <span class="text-gold-400 font-bold text-xs uppercase tracking-widest">تخطيط الدراسة المتوازن</span>
+                    <h2 class="text-3xl font-black text-white">مخطط توزيع ساعات المواد العلمية</h2>
+                    <p class="text-slate-400 font-tajawal text-sm">حدد الساعات المتاحة يومياً لحساب التوزيع الأنسب بين الرياضيات والفيزياء والكيمياء</p>
+                </div>
+
+                <div class="bg-royal-900 p-8 sm:p-10 rounded-3xl border border-royal-800 shadow-2xl space-y-8">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-3">إجمالي ساعات الدراسة اليومية المتاحة لديك:</label>
+                        <input type="range" id="studyHoursRange" min="3" max="15" value="9" oninput="updatePlanner(this.value)" class="w-full accent-gold-500">
+                        <div class="flex justify-between text-xs text-slate-400 font-mono mt-1">
+                            <span>3 ساعات</span>
+                            <span class="text-gold-400 font-bold text-sm" id="rangeHoursVal">9 ساعات</span>
+                            <span>15 ساعة</span>
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-3 gap-6 pt-4">
+                        <div class="bg-royal-950 p-6 rounded-2xl border border-blue-500/30 text-center">
+                            <i class="fa-solid fa-calculator text-blue-400 text-2xl mb-2"></i>
+                            <h4 class="font-bold text-white text-sm">الرياضيات</h4>
+                            <div class="text-2xl font-black text-blue-400 font-mono mt-2" id="mathHours">4 ساعات</div>
+                            <span class="text-[11px] text-slate-400 font-tajawal block mt-1">مسائل واستنتاجات</span>
+                        </div>
+
+                        <div class="bg-royal-950 p-6 rounded-2xl border border-emerald-500/30 text-center">
+                            <i class="fa-solid fa-atom text-emerald-400 text-2xl mb-2"></i>
+                            <h4 class="font-bold text-white text-sm">الفيزياء</h4>
+                            <div class="text-2xl font-black text-emerald-400 font-mono mt-2" id="physicsHours">3 ساعات</div>
+                            <span class="text-[11px] text-slate-400 font-tajawal block mt-1">نواسات وقوانين</span>
+                        </div>
+
+                        <div class="bg-royal-950 p-6 rounded-2xl border border-purple-500/30 text-center">
+                            <i class="fa-solid fa-flask-vial text-purple-400 text-2xl mb-2"></i>
+                            <h4 class="font-bold text-white text-sm">الكيمياء</h4>
+                            <div class="text-2xl font-black text-purple-400 font-mono mt-2" id="chemHours">2 ساعة</div>
+                            <span class="text-[11px] text-slate-400 font-tajawal block mt-1">معادلات وعضوية</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-2">
+                        <button onclick="savePlannerSchedule()" class="px-8 py-3 bg-gold-500 hover:bg-gold-600 text-royal-950 font-black rounded-2xl text-xs transition-transform hover:scale-105">
+                            اعتماد الخطة والمتابعة مع الأستاذ
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Science PDF Library Section -->
+        <section id="resources" class="py-24 bg-royal-900/40 border-b border-royal-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                    <span class="text-gold-400 font-bold text-xs uppercase tracking-widest">المكتبة العلمية المفتوحة</span>
+                    <h2 class="text-3xl font-black text-white">ملخصات، مكثفات، وأوراق عمل مجانية (PDF)</h2>
+                    <p class="text-slate-400 font-tajawal text-sm">قم بتصفية المادة وحمل الملفات الامتحانية بضغطة زر</p>
+                </div>
+
+                <!-- PDF Category Filter -->
+                <div class="flex flex-wrap justify-center gap-3 mb-10">
+                    <button onclick="filterPDFs('all')" class="pdf-filter-btn px-5 py-2 rounded-2xl text-xs font-bold transition-all bg-gold-500 text-royal-950">جميع الملفات</button>
+                    <button onclick="filterPDFs('math')" class="pdf-filter-btn px-5 py-2 rounded-2xl text-xs font-bold transition-all bg-royal-800 text-slate-300">الرياضيات</button>
+                    <button onclick="filterPDFs('physics')" class="pdf-filter-btn px-5 py-2 rounded-2xl text-xs font-bold transition-all bg-royal-800 text-slate-300">الفيزياء</button>
+                    <button onclick="filterPDFs('chem')" class="pdf-filter-btn px-5 py-2 rounded-2xl text-xs font-bold transition-all bg-royal-800 text-slate-300">الكيمياء</button>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6" id="pdfGrid">
+                    
+                    <!-- Math File -->
+                    <div class="pdf-card math bg-royal-900 p-6 rounded-3xl border border-blue-500/30 hover:border-blue-500 transition-all flex flex-col justify-between space-y-4 shadow-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] bg-blue-500/20 text-blue-400 font-bold px-2 py-0.5 rounded">رياضيات</span>
+                                <h4 class="font-bold text-white text-sm leading-snug mt-1">قوانين التحليل والجبر والفضائية الكاملة</h4>
+                                <span class="text-[11px] text-slate-400 block mt-1">البكالوريا العلمي • 4.5 MB</span>
+                            </div>
+                        </div>
+                        <button onclick="downloadFile('ملخص قوانين الرياضيات')" class="w-full py-2.5 bg-royal-800 hover:bg-blue-600 hover:text-white text-blue-400 font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i>
+                            <span>تحميل PDF مجاناً</span>
+                        </button>
+                    </div>
+
+                    <!-- Physics File -->
+                    <div class="pdf-card physics bg-royal-900 p-6 rounded-3xl border border-emerald-500/30 hover:border-emerald-500 transition-all flex flex-col justify-between space-y-4 shadow-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-bold px-2 py-0.5 rounded">فيزياء</span>
+                                <h4 class="font-bold text-white text-sm leading-snug mt-1">استنتاجات الفيزياء وحل مسائل النواسات</h4>
+                                <span class="text-[11px] text-slate-400 block mt-1">مرفق بالحلول • 3.8 MB</span>
+                            </div>
+                        </div>
+                        <button onclick="downloadFile('استنتاجات ومسائل الفيزياء')" class="w-full py-2.5 bg-royal-800 hover:bg-emerald-600 hover:text-white text-emerald-400 font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i>
+                            <span>تحميل PDF مجاناً</span>
+                        </button>
+                    </div>
+
+                    <!-- Chem File -->
+                    <div class="pdf-card chem bg-royal-900 p-6 rounded-3xl border border-purple-500/30 hover:border-purple-500 transition-all flex flex-col justify-between space-y-4 shadow-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </div>
+                            <div>
+                                <span class="text-[10px] bg-purple-500/20 text-purple-400 font-bold px-2 py-0.5 rounded">كيمياء</span>
+                                <h4 class="font-bold text-white text-sm leading-snug mt-1">شامل الكيمياء العضوية والتحليلية</h4>
+                                <span class="text-[11px] text-slate-400 block mt-1">تسميات وتفاعلات • 3.1 MB</span>
+                            </div>
+                        </div>
+                        <button onclick="downloadFile('ملخص الكيمياء العضوية')" class="w-full py-2.5 bg-royal-800 hover:bg-purple-600 hover:text-white text-purple-400 font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i>
+                            <span>تحميل PDF مجاناً</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="py-24 bg-royal-950 border-b border-royal-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                    <span class="text-gold-400 font-bold text-xs uppercase tracking-widest">قمم المتفوقين</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">نتائج طلابنا في العلوم العامة</h2>
+                    <div class="w-20 h-1 bg-gold-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Student 1 -->
+                    <div class="bg-royal-900 p-8 rounded-3xl border border-royal-800 space-y-4 shadow-xl">
+                        <div class="text-gold-400 text-xs flex gap-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-300 text-xs sm:text-sm font-tajawal leading-relaxed italic">
+                            "حصلت على العلامة التامة 600/600 في الرياضيات و400/400 في الفيزياء والكيمياء بفضل الشرح الدقيق والأسلوب المباشر للأستاذ طريف خيرالله."
+                        </p>
+                        <div class="pt-4 border-t border-royal-800 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-500 text-white font-black flex items-center justify-center text-sm">
+                                أ
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">أحمد الشامي</h4>
+                                <span class="text-[11px] text-blue-400">بكالوريا علمي - المجموع التام</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student 2 -->
+                    <div class="bg-royal-900 p-8 rounded-3xl border border-royal-800 space-y-4 shadow-xl">
+                        <div class="text-gold-400 text-xs flex gap-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-300 text-xs sm:text-sm font-tajawal leading-relaxed italic">
+                            "مادة الكيمياء كانت معقدة بالنسبة لي، لكن مع أسلوب الربط والخرائط الذهنية للأستاذ طريف أصبحت أسهل مادة وحققت فيها العلامة كاملة."
+                        </p>
+                        <div class="pt-4 border-t border-royal-800 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-purple-500 text-white font-black flex items-center justify-center text-sm">
+                                س
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">سارة درويش</h4>
+                                <span class="text-[11px] text-purple-400">بكالوريا علمي</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student 3 -->
+                    <div class="bg-royal-900 p-8 rounded-3xl border border-royal-800 space-y-4 shadow-xl">
+                        <div class="text-gold-400 text-xs flex gap-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-slate-300 text-xs sm:text-sm font-tajawal leading-relaxed italic">
+                            "التواصل والمتابعة الهاتفية عبر الرقم 0955893728 جعلتنا كأولياء أمور على اطلاع دائم بمستوى ابنتنا في الاختبارات الأسبوعية."
+                        </p>
+                        <div class="pt-4 border-t border-royal-800 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500 text-white font-black flex items-center justify-center text-sm">
+                                م
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">مهندس عبد الرحمن</h4>
+                                <span class="text-[11px] text-emerald-400">ولي أمر طالبة متفوقة</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 bg-royal-900/50 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Contact Cards -->
+                    <div class="lg:col-span-5 space-y-8">
+                        <div>
+                            <span class="text-gold-400 font-bold text-xs uppercase tracking-widest">تواصل مباشر</span>
+                            <h2 class="text-3xl font-black text-white mt-2">احجز مقعدك العلمي الآن</h2>
+                            <p class="text-slate-400 font-tajawal text-sm mt-3 leading-relaxed">
+                                يمكنك التواصل مع الأستاذ طريف خيرالله مباشرة عبر الاتصال الهاتفي أو رسائل الواتساب الفورية.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <a href="tel:0955893728" class="flex items-center gap-4 p-5 bg-royal-900 rounded-3xl border border-royal-800 hover:border-gold-500 transition-all shadow-xl group">
+                                <div class="w-14 h-14 rounded-2xl bg-gold-500/10 text-gold-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shrink-0">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">الاتصال الهاتفي المباشر:</span>
+                                    <strong class="text-xl font-black text-white group-hover:text-gold-400 transition-colors font-mono" dir="ltr">0955893728</strong>
+                                </div>
+                            </a>
+
+                            <a href="https://wa.me/963955893728?text=مرحباً%20أستاذ%20طريف،%20أرغب%20في%20التسجيل" target="_blank" class="flex items-center gap-4 p-5 bg-royal-900 rounded-3xl border border-royal-800 hover:border-emerald-500 transition-all shadow-xl group">
+                                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shrink-0">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">مراسلة الواتساب المباشرة:</span>
+                                    <strong class="text-xl font-black text-white group-hover:text-emerald-400 transition-colors font-mono" dir="ltr">0955893728</strong>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Direct Form -->
+                    <div class="lg:col-span-7 bg-royal-900 p-8 sm:p-10 rounded-3xl border border-royal-800 shadow-2xl">
+                        <h3 class="text-2xl font-black text-white mb-2">طلب حجز درس / دورة علمية</h3>
+                        <p class="text-xs text-slate-400 mb-6 font-tajawal">سيتم إرسال هذا الطلب مباشرة لتأكيد التسجيل</p>
+
+                        <form onsubmit="submitScienceForm(event)" class="space-y-4">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">اسم الطالب الكامل *</label>
+                                    <input type="text" id="scienceName" required placeholder="أدخل اسمك الكامل" class="w-full px-4 py-3 bg-royal-950 border border-royal-700 text-white rounded-2xl text-sm focus:outline-none focus:border-gold-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">رقم الهاتف للتواصل *</label>
+                                    <input type="tel" id="sciencePhone" required placeholder="0955893728" class="w-full px-4 py-3 bg-royal-950 border border-royal-700 text-white rounded-2xl text-sm focus:outline-none focus:border-gold-500 font-mono" dir="ltr">
+                                </div>
+                            </div>
+
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">المادة المطلوبة *</label>
+                                    <select id="scienceSubject" class="w-full px-4 py-3 bg-royal-950 border border-royal-700 text-white rounded-2xl text-sm focus:outline-none focus:border-gold-500">
+                                        <option value="الرياضيات والفيزياء والكيمياء (الثلاثية الكاملة)">المواد الثلاث كاملة (رياضيات - فيزياء - كيمياء)</option>
+                                        <option value="مادة الرياضيات فقط">مادة الرياضيات فقط</option>
+                                        <option value="مادة الفيزياء فقط">مادة الفيزياء فقط</option>
+                                        <option value="مادة الكيمياء فقط">مادة الكيمياء فقط</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">الصف الدراسي</label>
+                                    <select id="scienceGrade" class="w-full px-4 py-3 bg-royal-950 border border-royal-700 text-white rounded-2xl text-sm focus:outline-none focus:border-gold-500">
+                                        <option value="البكالوريا العلمي">البكالوريا العلمي</option>
+                                        <option value="الصف التاسع الأساسي">الصف التاسع الأساسي</option>
+                                        <option value="الأول الثاني الثانوي">الثاني الثانوي العلمي</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">تفاصيل إضافية أو استفسار</label>
+                                <textarea id="scienceMsg" rows="3" placeholder="اكتب أي ملاحظة أستاذ طريف..." class="w-full px-4 py-3 bg-royal-950 border border-royal-700 text-white rounded-2xl text-sm focus:outline-none focus:border-gold-500"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 bg-gradient-to-r from-gold-500 to-amber-500 hover:from-gold-600 hover:to-amber-600 text-royal-950 font-black rounded-2xl shadow-xl transition-all text-sm flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>إرسال الحجز عبر الواتساب المباشر</span>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating One-Touch Contact Buttons -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+        <a href="https://wa.me/963955893728" target="_blank" aria-label="واتساب" class="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center text-2xl shadow-2xl hover:scale-110 transition-transform">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <a href="tel:0955893728" aria-label="اتصال" class="w-14 h-14 rounded-full bg-gold-500 text-royal-950 flex items-center justify-center text-xl shadow-2xl hover:scale-110 transition-transform">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-royal-950 text-slate-400 border-t border-royal-800/80 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="space-y-3">
+                    <h4 class="text-white font-black text-lg">الأستاذ طريف خيرالله</h4>
+                    <p class="text-xs leading-relaxed font-tajawal">مدرس وموجه متخصص في المنهجيات الحديثة لمواد الرياضيات والفيزياء والكيمياء للشهادات الثانوية والإعدادية.</p>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold text-sm mb-3">المواد التخصصية</h5>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#subjects" class="hover:text-blue-400"><i class="fa-solid fa-calculator text-blue-400"></i> الرياضيات الشاملة</a></li>
+                        <li><a href="#subjects" class="hover:text-emerald-400"><i class="fa-solid fa-atom text-emerald-400"></i> الفيزياء التأسيسية</a></li>
+                        <li><a href="#subjects" class="hover:text-purple-400"><i class="fa-solid fa-flask text-purple-400"></i> الكيمياء المتكاملة</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold text-sm mb-3">الاتصال المباشر</h5>
+                    <ul class="space-y-2 text-xs font-mono">
+                        <li>هاتف: <a href="tel:0955893728" class="text-gold-400" dir="ltr">0955893728</a></li>
+                        <li>واتساب: <a href="https://wa.me/963955893728" target="_blank" class="text-emerald-400" dir="ltr">0955893728</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold text-sm mb-3">حجز سريع</h5>
+                    <a href="tel:0955893728" class="block text-center py-2.5 px-4 bg-gold-500 text-royal-950 font-black rounded-xl text-xs">
+                        اتصل الآن: 0955893728
+                    </a>
+                </div>
+            </div>
+            <div class="pt-6 border-t border-royal-800/60 text-center text-xs text-slate-500 font-tajawal">
+                © 2026 المنصة التعليمية الرسمية - الأستاذ طريف خيرالله | رياضيات • فيزياء • كيمياء | هاتف: <span dir="ltr" class="font-mono text-slate-300">0955893728</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="modalBooking" class="fixed inset-0 z-50 bg-royal-950/80 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-royal-900 border border-royal-700 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeBookingModal()" class="absolute top-4 left-4 text-slate-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-black text-white text-center mb-1" id="modalSubjectTitle">حجز المادة العلمية</h3>
+            <p class="text-xs text-slate-400 text-center mb-6 font-tajawal">سيتم تأكيد الحجز مباشرة عبر الواتساب المباشر 0955893728</p>
+
+            <form onsubmit="submitModalBooking(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">اسم الطالب *</label>
+                    <input type="text" id="modalName" required placeholder="اسم الطالب الكامل" class="w-full p-3 bg-royal-950 border border-royal-700 text-white rounded-xl text-sm focus:outline-none focus:border-gold-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">رقم الهاتف *</label>
+                    <input type="tel" id="modalPhone" required placeholder="0955893728" class="w-full p-3 bg-royal-950 border border-royal-700 text-white rounded-xl text-sm focus:outline-none focus:border-gold-500 font-mono" dir="ltr">
+                </div>
+                <button type="submit" class="w-full py-3 bg-gold-500 text-royal-950 font-black rounded-xl text-xs shadow-lg mt-2">
+                    تأكيد وإرسال عبر الواتساب
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Dynamic Typing Effect
+        const typingTerms = ["الأستاذ طريف خيرالله", "أستاذ الرياضيات والفيزياء والكيمياء", "خبير التفوق العلمي بالبكالوريا"];
+        let termIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const typingElem = document.getElementById("typingText");
+
+        function typeLoop() {
+            const currentTerm = typingTerms[termIdx];
+            if (isDeleting) {
+                typingElem.innerText = currentTerm.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typingElem.innerText = currentTerm.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            let delay = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIdx === currentTerm.length) {
+                delay = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                termIdx = (termIdx + 1) % typingTerms.length;
+                delay = 400;
+            }
+
+            setTimeout(typeLoop, delay);
+        }
+        typeLoop();
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById("themeIcon");
+            if (html.classList.contains("light")) {
+                html.classList.remove("light");
+                themeIcon.className = "fa-solid fa-moon text-lg";
+            } else {
+                html.classList.add("light");
+                themeIcon.className = "fa-solid fa-sun text-lg";
+            }
+        }
+
+        // Toast System
+        function showToast(title, msg) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toastTitle").innerText = title;
+            document.getElementById("toastMessage").innerText = msg;
+            toast.classList.remove("-translate-x-96", "opacity-0");
+            toast.classList.add("translate-x-0", "opacity-100");
+
+            setTimeout(() => {
+                toast.classList.remove("translate-x-0", "opacity-100");
+                toast.classList.add("-translate-x-96", "opacity-0");
+            }, 3500);
+        }
+
+        function copyPhoneNumber() {
+            navigator.clipboard.writeText("0955893728");
+            showToast("تم نسخ الرقم", "تم نسخ رقم الاتصال 0955893728 إلى الحافظة.");
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById("mobileMenu").classList.toggle("hidden");
+        }
+
+        // Science Quiz Logic
+        const scienceQuestions = [
+            {
+                subject: "مادة الرياضيات",
+                title: "مشتق الدالة اللوغاريتمية f(x) = ln(x) بالنسبة لـ x هو:",
+                options: ["1 / x", "x", "e^x"],
+                correct: 0,
+                tagClass: "bg-blue-500/20 text-blue-400"
+            },
+            {
+                subject: "مادة الفيزياء",
+                title: "في النواس المرن الأفقي، تكون السرعة عظمى في لحظة المرور بـ:",
+                options: ["مطال وضع التوازن (x = 0)", "الصلابة العظمى", "مطال التوقف الأقصى"],
+                correct: 0,
+                tagClass: "bg-emerald-500/20 text-emerald-400"
+            },
+            {
+                subject: "مادة الكيمياء",
+                title: "التفاعل بين الحمض والأساس لإنتاج الملح والماء يسمى تفاعل:",
+                options: ["المعايرة والتعادل", "الأكسدة والارجاع", "التفكك النووي"],
+                correct: 0,
+                tagClass: "bg-purple-500/20 text-purple-400"
+            }
+        ];
+
+        let quizIdx = 0;
+        let quizScore = 0;
+        let selectedOpt = null;
+
+        function renderQuiz() {
+            const q = scienceQuestions[quizIdx];
+            document.getElementById("quizStepText").innerText = `السؤال ${quizIdx + 1} من ${scienceQuestions.length}`;
+            const tag = document.getElementById("quizSubjectTag");
+            tag.innerText = q.subject;
+            tag.className = `px-3 py-1 rounded-full text-xs font-bold ${q.tagClass}`;
+
+            document.getElementById("quizProgress").style.width = `${((quizIdx + 1) / scienceQuestions.length) * 100}%`;
+            document.getElementById("quizQuestionTitle").innerText = q.title;
+
+            const optsBox = document.getElementById("quizOptions");
+            optsBox.innerHTML = "";
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement("button");
+                btn.className = "w-full text-right p-4 rounded-2xl bg-royal-950 border border-royal-800 text-slate-300 text-xs font-bold transition-all flex justify-between items-center hover:border-gold-500/50";
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-slate-500"></i>`;
+                btn.onclick = () => selectQuizOpt(idx, btn);
+                optsBox.appendChild(btn);
+            });
+
+            document.getElementById("quizNextBtn").disabled = true;
+            selectedOpt = null;
+        }
+
+        function selectQuizOpt(idx, elem) {
+            const allBtns = document.querySelectorAll("#quizOptions button");
+            allBtns.forEach(b => {
+                b.className = "w-full text-right p-4 rounded-2xl bg-royal-950 border border-royal-800 text-slate-300 text-xs font-bold transition-all flex justify-between items-center";
+                b.querySelector("i").className = "fa-regular fa-circle text-slate-500";
+            });
+
+            elem.className = "w-full text-right p-4 rounded-2xl bg-royal-800 border-2 border-gold-500 text-gold-400 text-xs font-bold transition-all flex justify-between items-center";
+            elem.querySelector("i").className = "fa-solid fa-circle-check text-gold-400";
+            selectedOpt = idx;
+            document.getElementById("quizNextBtn").disabled = false;
+        }
+
+        function nextQuizStep() {
+            if (selectedOpt === scienceQuestions[quizIdx].correct) {
+                quizScore += 10;
+            }
+            quizIdx++;
+            if (quizIdx < scienceQuestions.length) {
+                renderQuiz();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById("quizContainer").classList.add("hidden");
+            document.getElementById("quizResultBox").classList.remove("hidden");
+            document.getElementById("quizFinalScore").innerText = `${quizScore} / 30`;
+
+            const waMsg = encodeURIComponent(`مرحباً أستاذ طريف خيرالله، لقد أنهيت تقييم المواد العلمية على موقعك وحصلت على نتيجة (${quizScore}/30). أود الاستفسار عن التسجيل معك.`);
+            document.getElementById("quizWhatsappBtn").href = `https://wa.me/963955893728?text=${waMsg}`;
+
+            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        }
+
+        function restartQuiz() {
+            quizIdx = 0;
+            quizScore = 0;
+            document.getElementById("quizResultBox").classList.add("hidden");
+            document.getElementById("quizContainer").classList.remove("hidden");
+            renderQuiz();
+        }
+        renderQuiz();
+
+        // Science Study Planner
+        function updatePlanner(val) {
+            document.getElementById("rangeHoursVal").innerText = `${val} ساعات`;
+            const hours = parseInt(val);
+            const math = Math.round(hours * 0.45);
+            const physics = Math.round(hours * 0.35);
+            const chem = Math.max(1, hours - math - physics);
+
+            document.getElementById("mathHours").innerText = `${math} ساعات`;
+            document.getElementById("physicsHours").innerText = `${physics} ساعات`;
+            document.getElementById("chemHours").innerText = `${chem} ساعات`;
+        }
+
+        function savePlannerSchedule() {
+            const h = document.getElementById("rangeHoursVal").innerText;
+            showToast("تم اعتماد الخطة", `تم توزيع جدول الدراسة اليومي بواقع ${h} بنجاح.`);
+        }
+
+        // PDF Filter
+        function filterPDFs(category) {
+            const cards = document.querySelectorAll(".pdf-card");
+            const btns = document.querySelectorAll(".pdf-filter-btn");
+
+            btns.forEach(b => b.className = "pdf-filter-btn px-5 py-2 rounded-2xl text-xs font-bold transition-all bg-royal-800 text-slate-300");
+            event.currentTarget.className = "pdf-filter-btn px-5 py-2 rounded-2xl text-xs font-bold transition-all bg-gold-500 text-royal-950";
+
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function downloadFile(name) {
+            showToast("تحميل ملف علمي", `بدأ تحميل "${name}" بفرع PDFs.`);
+        }
+
+        // Booking Modal
+        let activeSubject = 'الرياضيات والفيزياء والكيمياء';
+        function openBookingModal(subject) {
+            activeSubject = subject;
+            document.getElementById("modalSubjectTitle").innerText = `حجز دورة: ${subject}`;
+            const modal = document.getElementById("modalBooking");
+            modal.classList.remove("opacity-0", "pointer-events-none");
+        }
+
+        function closeBookingModal() {
+            const modal = document.getElementById("modalBooking");
+            modal.classList.add("opacity-0", "pointer-events-none");
+        }
+
+        function submitModalBooking(e) {
+            e.preventDefault();
+            const name = document.getElementById("modalName").value;
+            const phone = document.getElementById("modalPhone").value;
+            closeBookingModal();
+
+            const text = encodeURIComponent(`مرحباً أستاذ طريف خيرالله، أنا الطالب: ${name}\nرقم الهاتف: ${phone}\nأرغب بحجز مقعد في: ${activeSubject}`);
+            window.open(`https://wa.me/963955893728?text=${text}`, '_blank');
+        }
+
+        function submitScienceForm(e) {
+            e.preventDefault();
+            const name = document.getElementById("scienceName").value;
+            const phone = document.getElementById("sciencePhone").value;
+            const subject = document.getElementById("scienceSubject").value;
+            const grade = document.getElementById("scienceGrade").value;
+            const msg = document.getElementById("scienceMsg").value;
+
+            const text = encodeURIComponent(`طلب حجز جديد للأستاذ طريف خيرالله:\n- الاسم: ${name}\n- الهاتف: ${phone}\n- المادة: ${subject}\n- الصف: ${grade}\n- ملاحظات: ${msg}`);
+            window.open(`https://wa.me/963955893728?text=${text}`, '_blank');
+        }
+    </script>
+</body>
+</html>
